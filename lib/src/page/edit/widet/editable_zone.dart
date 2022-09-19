@@ -42,7 +42,11 @@ class EditableZone extends StatelessWidget {
                                       if (screenState.page ==
                                           EditScreenEnum.preview) return;
                                       imageController.updateColor(
-                                          e, Colors.red);
+                                          e,
+                                          screenState.page ==
+                                                  EditScreenEnum.eraser
+                                              ? const Color(0x00FFFFFF)
+                                              : Colors.red);
                                     },
                                     child: Container(
                                       padding: EdgeInsets.zero,
