@@ -45,7 +45,7 @@ class EditableZone extends StatelessWidget {
                                           e,
                                           screenState.page ==
                                                   EditScreenEnum.eraser
-                                              ? const Color(0x00FFFFFF)
+                                              ? screenState.eraseredColor
                                               : Colors.red);
                                     },
                                     child: Container(

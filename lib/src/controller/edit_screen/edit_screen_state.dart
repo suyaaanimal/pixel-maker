@@ -5,12 +5,22 @@ import 'package:pixel_maker/src/enums/edit_screen_enum.dart';
 class EditScreenState {
   const EditScreenState({
     required this.page,
+    required this.eraseredColor,
   });
-  const EditScreenState.init() : this(page: EditScreenEnum.pen);
+  const EditScreenState.init()
+      : this(
+          page: EditScreenEnum.pen,
+          eraseredColor: const Color(0x00FFFFFF),
+        );
   final EditScreenEnum page;
-  EditScreenState copyWith({EditScreenEnum? page}) {
+  final Color eraseredColor;
+  EditScreenState copyWith({
+    EditScreenEnum? page,
+    Color? eraseredColor,
+  }) {
     return EditScreenState(
       page: page ?? this.page,
+      eraseredColor: eraseredColor ?? this.eraseredColor,
     );
   }
 }
