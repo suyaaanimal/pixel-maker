@@ -20,13 +20,14 @@ class EditScreen extends StatelessWidget {
             create: (context) => EditScreenController())
       ],
       child: Builder(builder: (context) {
-        final screen = context.watch<EditScreenController>();
-        print('build');
+        final screenState = context.watch<EditScreenState>();
+        final screenController = context.read<EditScreenController>();
         return Scaffold(
             body: const Center(child: Text('Edit Screen')),
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: screen.pageIndex,
-              onTap: (value) => screen.changePage(EditScreenEnum.values[value]),
+              currentIndex: screenState.page.index,
+              onTap: (value) =>
+                  screenController.changePage(EditScreenEnum.values[value]),
               type: BottomNavigationBarType.fixed,
               items: EditScreenEnum.values
                   .map((e) => BottomNavigationBarItem(
@@ -35,26 +36,5 @@ class EditScreen extends StatelessWidget {
             ));
       }),
     );
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screen = context.read<EditScreenController>();
-    print('build');
-    return Scaffold(
-        body: const Center(child: Text('Edit Screen')),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: context.watch<EditScreenState>().page.index,
-          onTap: (value) => screen.changePage(EditScreenEnum.values[value]),
-          type: BottomNavigationBarType.fixed,
-          items: EditScreenEnum.values
-              .map((e) =>
-                  BottomNavigationBarItem(icon: Icon(e.icon), label: e.name))
-              .toList(),
-        ));
   }
 }
