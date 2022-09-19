@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pixel_maker/src/page/edit/edit_screen.dart';
 import 'package:pixel_maker/src/route/route.dart';
 
 void main() {
