@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:pixel_maker/src/model/pixel_model.dart';
 
 @immutable
 class ImageState {
-  ImageState(this.size);
+  const ImageState({required this.pixels}) : size = pixels.length;
+  ImageState.fromLength(this.size)
+      : pixels = List.generate(
+            size,
+            (_) => List.generate(
+                size, (_) => PixelModel(color: const Color(0xFFFFFFFF))));
 
   final int size;
-  late final pixels =
-      List.filled(size, List.filled(size, const Color(0xFFFFFFFF)));
+  final List<List<PixelModel>> pixels;
+
+  ImageState copyWith({
+    List<List<PixelModel>>? pixels,
+  }) =>
+      ImageState(
+        pixels: pixels ?? this.pixels,
+      );
 }

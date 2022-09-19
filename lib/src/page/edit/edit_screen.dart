@@ -24,6 +24,7 @@ class EditScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final screenState = context.watch<EditScreenState>();
         final screenController = context.read<EditScreenController>();
+        final imageController = context.read<ImageController>();
         return Scaffold(
             body: Center(
                 child: SizedBox(
@@ -60,6 +61,14 @@ class EditScreen extends StatelessWidget {
                                         (rowPixels) => Row(
                                           children: rowPixels
                                               .map((e) => GestureDetector(
+                                                    onTap: () {
+                                                      if (screenState.page ==
+                                                          EditScreenEnum
+                                                              .preview) return;
+                                                      imageController
+                                                          .updateColor(
+                                                              e, Colors.red);
+                                                    },
                                                     child: Container(
                                                       padding: EdgeInsets.zero,
                                                       width: pixelOneSideLength,
@@ -80,7 +89,7 @@ class EditScreen extends StatelessWidget {
                                                                       StrokeAlign
                                                                           .outside,
                                                                 ),
-                                                          color: e),
+                                                          color: e.color),
                                                     ),
                                                   ))
                                               .toList(),
