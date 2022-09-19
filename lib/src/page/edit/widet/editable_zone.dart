@@ -9,10 +9,15 @@ import 'package:pixel_maker/src/enums/edit_screen_enum.dart';
 import 'package:pixel_maker/src/model/pixel_model.dart';
 import 'package:provider/provider.dart';
 
-class EditableZone extends StatelessWidget {
+class EditableZone extends StatefulWidget {
   const EditableZone({super.key});
 
-  void actionOnPixel(BuildContext context, PixelModel e) {
+  @override
+  State<EditableZone> createState() => _EditableZoneState();
+}
+
+class _EditableZoneState extends State<EditableZone> {
+  void actionOnPixel(PixelModel e) {
     final screenState = context.read<EditScreenState>();
     final screenController = context.read<EditScreenController>();
     final imageController = context.read<ImageController>();
@@ -60,7 +65,7 @@ class EditableZone extends StatelessWidget {
                         (rowPixels) => Row(
                           children: rowPixels
                               .map((e) => GestureDetector(
-                                    onTap: () => actionOnPixel(context, e),
+                                    onTap: () => actionOnPixel(e),
                                     child: Container(
                                       padding: EdgeInsets.zero,
                                       width: pixelOneSideLength,
