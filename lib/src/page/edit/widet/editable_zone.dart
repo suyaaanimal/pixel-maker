@@ -6,16 +6,36 @@ import 'package:pixel_maker/src/controller/edit_screen/edit_screen_state.dart';
 import 'package:pixel_maker/src/controller/image/image_controller.dart';
 import 'package:pixel_maker/src/controller/image/image_state.dart';
 import 'package:pixel_maker/src/enums/edit_screen_enum.dart';
+import 'package:pixel_maker/src/model/pixel_model.dart';
 import 'package:provider/provider.dart';
 
 class EditableZone extends StatelessWidget {
   const EditableZone({super.key});
 
+  void actionOnPixel(BuildContext context, PixelModel e) {
+    final screenState = context.read<EditScreenState>();
+    final screenController = context.read<EditScreenController>();
+    final imageController = context.read<ImageController>();
+    switch (screenState.page) {
+      case EditScreenEnum.pen:
+        imageController.updateColor(e, screenState.penColor);
+        break;
+      case EditScreenEnum.eraser:
+        imageController.updateColor(e, screenState.eraseredColor);
+        break;
+      case EditScreenEnum.spoit:
+        screenController.updatePenColor(e.color);
+        break;
+      case EditScreenEnum.colorPicker:
+        throw Exception('pixel tapped on color picker mode');
+      case EditScreenEnum.preview:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenState = context.watch<EditScreenState>();
-    final screenController = context.watch<EditScreenController>();
-    final imageController = context.read<ImageController>();
     final imageState = context.watch<ImageState>();
     return LayoutBuilder(
       builder: (context, constraint) {
@@ -40,27 +60,7 @@ class EditableZone extends StatelessWidget {
                         (rowPixels) => Row(
                           children: rowPixels
                               .map((e) => GestureDetector(
-                                    onTap: () {
-                                      switch (screenState.page) {
-                                        case EditScreenEnum.pen:
-                                          imageController.updateColor(
-                                              e, screenState.penColor);
-                                          break;
-                                        case EditScreenEnum.eraser:
-                                          imageController.updateColor(
-                                              e, screenState.eraseredColor);
-                                          break;
-                                        case EditScreenEnum.spoit:
-                                          screenController
-                                              .updatePenColor(e.color);
-                                          break;
-                                        case EditScreenEnum.colorPicker:
-                                          throw Exception(
-                                              'pixel tapped on color picker mode');
-                                        case EditScreenEnum.preview:
-                                          break;
-                                      }
-                                    },
+                                    onTap: () => actionOnPixel(context, e),
                                     child: Container(
                                       padding: EdgeInsets.zero,
                                       width: pixelOneSideLength,
