@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:pixel_maker/src/controller/edit_screen/edit_screen_controller.dart';
 import 'package:pixel_maker/src/controller/edit_screen/edit_screen_state.dart';
 import 'package:pixel_maker/src/controller/image/image_controller.dart';
 import 'package:pixel_maker/src/controller/image/image_state.dart';
@@ -13,6 +14,7 @@ class EditableZone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenState = context.watch<EditScreenState>();
+    final screenController = context.watch<EditScreenController>();
     final imageController = context.read<ImageController>();
     final imageState = context.watch<ImageState>();
     return LayoutBuilder(
@@ -39,14 +41,25 @@ class EditableZone extends StatelessWidget {
                           children: rowPixels
                               .map((e) => GestureDetector(
                                     onTap: () {
-                                      if (screenState.page ==
-                                          EditScreenEnum.preview) return;
-                                      imageController.updateColor(
-                                          e,
-                                          screenState.page ==
-                                                  EditScreenEnum.eraser
-                                              ? screenState.eraseredColor
-                                              : screenState.penColor);
+                                      switch (screenState.page) {
+                                        case EditScreenEnum.pen:
+                                          imageController.updateColor(
+                                              e, screenState.penColor);
+                                          break;
+                                        case EditScreenEnum.eraser:
+                                          imageController.updateColor(
+                                              e, screenState.eraseredColor);
+                                          break;
+                                        case EditScreenEnum.spoit:
+                                          screenController
+                                              .updatePenColor(e.color);
+                                          break;
+                                        case EditScreenEnum.colorPicker:
+                                          throw Exception(
+                                              'pixel tapped on color picker mode');
+                                        case EditScreenEnum.preview:
+                                          break;
+                                      }
                                     },
                                     child: Container(
                                       padding: EdgeInsets.zero,
