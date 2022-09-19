@@ -53,6 +53,7 @@ class _EditableZoneState extends State<EditableZone> {
         final pixelOneSideLength = wholeOneSideLength / pixelOneSideSize;
         return Center(
           child: InteractiveViewer(
+            panEnabled: false,
             child: Container(
               decoration: BoxDecoration(
                   border: screenState.page == EditScreenEnum.preview
