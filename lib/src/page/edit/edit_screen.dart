@@ -5,6 +5,7 @@ import 'package:pixel_maker/src/controller/edit_screen/edit_screen_state.dart';
 import 'package:pixel_maker/src/controller/image/image_controller.dart';
 import 'package:pixel_maker/src/controller/image/image_state.dart';
 import 'package:pixel_maker/src/enums/edit_screen_enum.dart';
+import 'package:pixel_maker/src/page/edit/widet/color_picker_zone.dart';
 import 'package:pixel_maker/src/page/edit/widet/editable_zone.dart';
 import 'package:provider/provider.dart';
 
@@ -24,13 +25,15 @@ class EditScreen extends StatelessWidget {
         final screenState = context.watch<EditScreenState>();
         final screenController = context.read<EditScreenController>();
         return Scaffold(
-            body: const Center(
-                child:
-                    SizedBox(height: 250, width: 250, child: EditableZone())),
+            body: Center(
+                child: SizedBox(
+                    child: screenState.page == EditScreenEnum.colorPicker
+                        ? const ColorPickerZone()
+                        : const EditableZone())),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: screenState.page.index,
               onTap: (value) =>
-                  screenController.changePage(EditScreenEnum.values[value]),
+                  screenController.updatePage(EditScreenEnum.values[value]),
               type: BottomNavigationBarType.fixed,
               items: EditScreenEnum.values
                   .map((e) => BottomNavigationBarItem(

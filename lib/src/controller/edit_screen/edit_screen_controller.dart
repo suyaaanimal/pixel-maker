@@ -8,10 +8,11 @@ class EditScreenController extends StateNotifier<EditScreenState> {
 
   int get pageIndex => state.page.index;
 
-  void changePage(EditScreenEnum page) {
-    print(page);
-    debugPrint(state.hashCode.toString());
+  void updatePage(EditScreenEnum page) {
     state = state.copyWith(page: page);
-    debugPrint(state.hashCode.toString());
+  }
+
+  void updatePenColor(Color color) {
+    state = state.copyWith(penColor: color);
   }
 }
