@@ -71,6 +71,7 @@ class MyInteractiveViewer extends StatefulWidget {
     this.scaleEnabled = true,
     this.scaleFactor = 200.0,
     this.transformationController,
+    required this.onPan,
     required Widget this.child,
   })  : assert(alignPanAxis != null),
         assert(child != null),
@@ -105,6 +106,7 @@ class MyInteractiveViewer extends StatefulWidget {
   /// using it to optimize a large child.
   MyInteractiveViewer.builder({
     super.key,
+    this.onPan,
     this.clipBehavior = Clip.hardEdge,
     this.alignPanAxis = false,
     this.boundaryMargin = EdgeInsets.zero,
@@ -143,6 +145,8 @@ class MyInteractiveViewer extends StatefulWidget {
         ),
         constrained = false,
         child = null;
+
+  final GestureScaleUpdateCallback? onPan;
 
   /// If set to [Clip.none], the child may extend beyond the size of the InteractiveViewer,
   /// but it will not receive gestures in these areas.
@@ -832,22 +836,7 @@ class _MyInteractiveViewerState extends State<MyInteractiveViewer>
         // details may have a change in scale here when scaleEnabled is false.
         // In an effort to keep the behavior similar whether or not scaleEnabled
         // is true, these gestures are thrown away.
-        if (details.scale != 1.0) {
-          widget.onInteractionUpdate?.call(details);
-          return;
-        }
-        _panAxis ??= _getPanAxis(_referenceFocalPoint!, focalPointScene);
-        // Translate so that the same point in the scene is underneath the
-        // focal point before and after the movement.
-        final Offset translationChange =
-            focalPointScene - _referenceFocalPoint!;
-        _transformationController!.value = _matrixTranslate(
-          _transformationController!.value,
-          translationChange,
-        );
-        _referenceFocalPoint = _transformationController!.toScene(
-          details.localFocalPoint,
-        );
+        widget.onPan?.call(details);
         break;
     }
     widget.onInteractionUpdate?.call(details);
@@ -865,6 +854,10 @@ class _MyInteractiveViewerState extends State<MyInteractiveViewer>
     _controller.reset();
 
     if (!_gestureIsSupported(_gestureType)) {
+      _panAxis = null;
+      return;
+    }
+    if (_gestureType == _GestureType.pan) {
       _panAxis = null;
       return;
     }
@@ -1148,56 +1141,6 @@ class _InteractiveViewerBuilt extends StatelessWidget {
 ///
 ///  * [MyInteractiveViewer.transformationController] for detailed documentation
 ///    on how to use TransformationController with [MyInteractiveViewer].
-class TransformationController extends ValueNotifier<Matrix4> {
-  /// Create an instance of [TransformationController].
-  ///
-  /// The [value] defaults to the identity matrix, which corresponds to no
-  /// transformation.
-  TransformationController([Matrix4? value])
-      : super(value ?? Matrix4.identity());
-
-  /// Return the scene point at the given viewport point.
-  ///
-  /// A viewport point is relative to the parent while a scene point is relative
-  /// to the child, regardless of transformation. Calling toScene with a
-  /// viewport point essentially returns the scene coordinate that lies
-  /// underneath the viewport point given the transform.
-  ///
-  /// The viewport transforms as the inverse of the child (i.e. moving the child
-  /// left is equivalent to moving the viewport right).
-  ///
-  /// This method is often useful when determining where an event on the parent
-  /// occurs on the child. This example shows how to determine where a tap on
-  /// the parent occurred on the child.
-  ///
-  /// ```dart
-  /// @override
-  /// void build(BuildContext context) {
-  ///   return GestureDetector(
-  ///     onTapUp: (TapUpDetails details) {
-  ///       _childWasTappedAt = _transformationController.toScene(
-  ///         details.localPosition,
-  ///       );
-  ///     },
-  ///     child: InteractiveViewer(
-  ///       transformationController: _transformationController,
-  ///       child: child,
-  ///     ),
-  ///   );
-  /// }
-  /// ```
-  Offset toScene(Offset viewportPoint) {
-    // On viewportPoint, perform the inverse transformation of the scene to get
-    // where the point would be in the scene before the transformation.
-    final Matrix4 inverseMatrix = Matrix4.inverted(value);
-    final Vector3 untransformed = inverseMatrix.transform3(Vector3(
-      viewportPoint.dx,
-      viewportPoint.dy,
-      0,
-    ));
-    return Offset(untransformed.x, untransformed.y);
-  }
-}
 
 // A classification of relevant user gestures. Each contiguous user gesture is
 // represented by exactly one _GestureType.

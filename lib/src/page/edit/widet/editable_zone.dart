@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:pixel_maker/src/conponent/interactive_viewer_clone.dart'
+    show MyInteractiveViewer;
 import 'package:pixel_maker/src/controller/edit_screen/edit_screen_controller.dart';
 import 'package:pixel_maker/src/controller/edit_screen/edit_screen_state.dart';
 import 'package:pixel_maker/src/controller/image/image_controller.dart';
@@ -66,10 +68,29 @@ class _EditableZoneState extends State<EditableZone>
         return Center(
           child: Column(
             children: [
-              InteractiveViewer(
+              MyInteractiveViewer(
                 maxScale: scaleMax,
                 minScale: scaleMin,
                 transformationController: transformationController,
+                onPan: (details) {
+                  final offset = details.localFocalPoint;
+                  if (!(0 < offset.dx && offset.dx < wholeOneSideLength) ||
+                      !(0 < offset.dy && offset.dy < wholeOneSideLength)) {
+                    return;
+                  }
+                  final trans = transformationController.value.getTranslation();
+                  final scale =
+                      transformationController.value.getMaxScaleOnAxis();
+                  final row =
+                      (offset.dx - trans.x) / scale ~/ pixelOneSideLength;
+                  final column =
+                      (offset.dy - trans.y) / scale ~/ pixelOneSideLength;
+                  if (!(0 <= row && row < 16) ||
+                      !(0 <= column && column < 16)) {
+                    return;
+                  }
+                  actionOnPixel(imageState.pixels[column][row]);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                       border: screenState.page == EditScreenEnum.preview
@@ -118,6 +139,8 @@ class _EditableZoneState extends State<EditableZone>
                           final deltaScale = value /
                               transformationController.value
                                   .getMaxScaleOnAxis();
+                          // TODO:(atahatah) これを外すとバグる
+                          if (deltaScale > 2) return;
                           transformationController.value.scale(deltaScale);
 
                           final deltaTrns = (deltaScale - 1.0) / 2.0;
@@ -152,7 +175,6 @@ class _EditableZoneState extends State<EditableZone>
                           transformationController.value
                               .translate(-fixTransX, -fixTransY);
                           setState(() {});
-                          // Transform();
                         });
                   })
             ],
