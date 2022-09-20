@@ -20,7 +20,7 @@ class EditableZone extends StatefulWidget {
 
 class _EditableZoneState extends State<EditableZone>
     with SingleTickerProviderStateMixin {
-  static const scaleMax = 4.0;
+  static const scaleMax = 10.0;
   static const scaleMin = 1.0;
 
   final transformationController = TransformationController();
@@ -86,8 +86,9 @@ class _EditableZoneState extends State<EditableZone>
                       (offset.dx - trans.x) / scale ~/ pixelOneSideLength;
                   final column =
                       (offset.dy - trans.y) / scale ~/ pixelOneSideLength;
-                  if (!(0 <= row && row < 16) ||
-                      !(0 <= column && column < 16)) {
+
+                  if (!(0 <= row && row < imageState.size) ||
+                      !(0 <= column && column < imageState.size)) {
                     return;
                   }
 
