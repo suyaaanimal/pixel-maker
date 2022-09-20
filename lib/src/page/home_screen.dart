@@ -6,24 +6,27 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-            child: Column(
-          children: [
-            ElevatedButton(
-              child: const Text('Edit'),
-              onPressed: () {
-                context.go('/edit');
-              },
-            ),
-            ElevatedButton(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: SafeArea(
+          child: Center(
+              child: Column(
+            children: [
+              ElevatedButton(
+                child: const Text('Edit'),
                 onPressed: () {
-                  context.go('/settings');
+                  context.push('/edit');
                 },
-                child: const Text('Settings')),
-          ],
-        )),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    context.push('/settings');
+                  },
+                  child: const Text('Settings')),
+            ],
+          )),
+        ),
       ),
     );
   }

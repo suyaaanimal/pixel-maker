@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_maker/src/page/edit/edit_screen.dart';
 import 'package:pixel_maker/src/page/home_screen.dart';
+import 'package:pixel_maker/src/page/settings/init_user.dart';
 import 'package:pixel_maker/src/page/settings/login.dart';
 import 'package:pixel_maker/src/page/settings/setting.dart';
 
@@ -31,6 +32,11 @@ final route = GoRouter(
                     builder: ((context, state) => LoginScreen(
                           key: state.pageKey,
                         ))),
+                GoRoute(
+                    path: 'init_user',
+                    builder: (((context, state) => InitUserScreen(
+                          key: state.pageKey,
+                        ))))
               ]),
         ])
   ],
