@@ -32,43 +32,49 @@ class HomeScreen extends StatelessWidget {
                 child: FirestoreListView(
                   query: FirebaseFirestore.instance.collection('image'),
                   itemBuilder: (context, doc) {
-                    final data = doc.data();
-                    final createdAt = (data['createdAt'] as Timestamp).toDate();
-                    final updatedAt = (data['updatedAt'] as Timestamp).toDate();
-                    final size = data['size'] as int;
-                    final linerImage = data['pixels'] as List;
-                    final pixels = [
-                      for (int i = 0; i < size; i++)
-                        [
-                          for (int j = 0; j < size; j++)
-                            Color(linerImage[i * size + j])
-                        ],
-                    ];
-                    return GestureDetector(
-                      onTap: () => context.go(
-                          '/edit?size=$size&docId=${doc.id}',
-                          extra: pixels),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 32,
-                            height: 32,
-                            child: DotPicture(
-                                size: size, pixels: pixels, border: false),
-                          ),
-                          Column(
-                            children: [
-                              Text('creator:${data['creator']}'),
-                              Text('size:${data['size']}'),
-                              Text(
-                                  'created at:${createdAt.month}/${createdAt.day} ${createdAt.hour}:${createdAt.minute}'),
-                              Text(
-                                  'updated at:${updatedAt.month}/${updatedAt.day} ${updatedAt.hour}:${updatedAt.minute}'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
+                    try {
+                      final data = doc.data();
+                      final createdAt =
+                          (data['createdAt'] as Timestamp).toDate();
+                      final updatedAt =
+                          (data['updatedAt'] as Timestamp).toDate();
+                      final size = data['size'] as int;
+                      final linerImage = data['pixels'] as List;
+                      final pixels = [
+                        for (int i = 0; i < size; i++)
+                          [
+                            for (int j = 0; j < size; j++)
+                              Color(linerImage[i * size + j])
+                          ],
+                      ];
+                      return GestureDetector(
+                        onTap: () => context.go(
+                            '/edit?size=$size&docId=${doc.id}',
+                            extra: pixels),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: DotPicture(
+                                  size: size, pixels: pixels, border: false),
+                            ),
+                            Column(
+                              children: [
+                                Text('creator:${data['creator']}'),
+                                Text('size:${data['size']}'),
+                                Text(
+                                    'created at:${createdAt.month}/${createdAt.day} ${createdAt.hour}:${createdAt.minute}'),
+                                Text(
+                                    'updated at:${updatedAt.month}/${updatedAt.day} ${updatedAt.hour}:${updatedAt.minute}'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    } catch (e) {
+                      return const Text('sorry, something went wrong...');
+                    }
                   },
                 ),
               ),
