@@ -185,32 +185,36 @@ class _EditableZoneState extends State<EditableZone>
                           setState(() {});
                         });
                   }),
-              Row(
-                children: [
-                  Visibility(
-                    visible: imageState.history.backable,
-                    replacement: Opacity(
-                      opacity: 0.2,
+              Visibility(
+                visible: screenState.page != EditScreenEnum.preview,
+                child: Row(
+                  children: [
+                    Visibility(
+                      visible: imageState.history.backable,
+                      replacement: Opacity(
+                        opacity: 0.2,
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.arrow_back)),
+                      ),
                       child: IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                          onPressed: () => imageController.back(),
+                          icon: const Icon(Icons.arrow_back)),
                     ),
-                    child: IconButton(
-                        onPressed: () => imageController.back(),
-                        icon: const Icon(Icons.arrow_back)),
-                  ),
-                  Visibility(
-                    visible: imageState.history.nextable,
-                    replacement: Opacity(
-                      opacity: 0.2,
+                    Visibility(
+                      visible: imageState.history.nextable,
+                      replacement: Opacity(
+                        opacity: 0.2,
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.arrow_forward)),
+                      ),
                       child: IconButton(
-                          onPressed: () {},
+                          onPressed: () => imageController.forward(),
                           icon: const Icon(Icons.arrow_forward)),
                     ),
-                    child: IconButton(
-                        onPressed: () => imageController.forward(),
-                        icon: const Icon(Icons.arrow_forward)),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
