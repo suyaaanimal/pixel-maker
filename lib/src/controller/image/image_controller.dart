@@ -10,6 +10,18 @@ class ImageController extends StateNotifier<ImageState> {
           docId: docId ?? '',
         ));
 
+  ImageController.update(
+    int size,
+    List<List<Color>> pixels,
+    String docId,
+  ) : super(ImageState.update(
+            size: size,
+            pixels: [
+              for (final row in pixels)
+                [for (final e in row) PixelModel(color: e)],
+            ],
+            docId: docId));
+
   updateColor(PixelModel old, Color newColor) {
     state = state.copyWith(pixels: [
       for (final row in state.pixels)

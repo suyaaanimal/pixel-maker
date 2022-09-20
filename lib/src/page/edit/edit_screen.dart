@@ -11,14 +11,20 @@ import 'package:pixel_maker/src/page/edit/widet/editable_zone.dart';
 import 'package:provider/provider.dart';
 
 class EditScreen extends StatelessWidget {
-  const EditScreen({super.key});
+  const EditScreen({super.key, this.size, this.pixels, this.docId});
+
+  final int? size;
+  final List<List<Color>>? pixels;
+  final String? docId;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         StateNotifierProvider<ImageController, ImageState>(
-            create: (context) => ImageController()),
+            create: (context) => size != null && pixels != null
+                ? ImageController.update(size!, pixels!, docId!)
+                : ImageController()),
         StateNotifierProvider<EditScreenController, EditScreenState>(
             create: (context) => EditScreenController())
       ],

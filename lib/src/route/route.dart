@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_maker/src/page/edit/edit_screen.dart';
 import 'package:pixel_maker/src/page/home_screen.dart';
@@ -20,6 +21,9 @@ final route = GoRouter(
               path: 'edit',
               builder: ((context, state) => EditScreen(
                     key: state.pageKey,
+                    size: int.tryParse(state.queryParams['size'] ?? ''),
+                    pixels: state.extra as List<List<Color>>?,
+                    docId: state.queryParams['docId'],
                   ))),
           GoRoute(
               path: 'settings',

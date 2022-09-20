@@ -21,6 +21,12 @@ class ImageState {
     history = ImageHistory(list: [pixels], index: 0);
   }
 
+  ImageState.update({
+    required this.size,
+    required this.pixels,
+    required this.docId,
+  }) : history = ImageHistory(list: [pixels], index: 0);
+
   final int size;
   final List<List<PixelModel>> pixels;
   late final ImageHistory history;
