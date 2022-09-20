@@ -56,6 +56,7 @@ class _EditableZoneState extends State<EditableZone>
   Widget build(BuildContext context) {
     final screenState = context.watch<EditScreenState>();
     final imageState = context.watch<ImageState>();
+    final imageController = context.read<ImageController>();
     return LayoutBuilder(
       builder: (context, constraint) {
         final pixelBorderWidth =
@@ -89,7 +90,11 @@ class _EditableZoneState extends State<EditableZone>
                       !(0 <= column && column < 16)) {
                     return;
                   }
+
                   actionOnPixel(imageState.pixels[column][row]);
+                },
+                onPanEnd: (details) {
+                  imageController.setHistory();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -103,7 +108,10 @@ class _EditableZoneState extends State<EditableZone>
                             (rowPixels) => Row(
                               children: rowPixels
                                   .map((e) => GestureDetector(
-                                        onTap: () => actionOnPixel(e),
+                                        onTap: () {
+                                          actionOnPixel(e);
+                                          imageController.setHistory();
+                                        },
                                         child: Container(
                                           padding: EdgeInsets.zero,
                                           width: pixelOneSideLength,
@@ -176,7 +184,34 @@ class _EditableZoneState extends State<EditableZone>
                               .translate(-fixTransX, -fixTransY);
                           setState(() {});
                         });
-                  })
+                  }),
+              Row(
+                children: [
+                  Visibility(
+                    visible: imageState.history.backable,
+                    replacement: Opacity(
+                      opacity: 0.2,
+                      child: IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                    ),
+                    child: IconButton(
+                        onPressed: () => imageController.back(),
+                        icon: const Icon(Icons.arrow_back)),
+                  ),
+                  Visibility(
+                    visible: imageState.history.nextable,
+                    replacement: Opacity(
+                      opacity: 0.2,
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.arrow_forward)),
+                    ),
+                    child: IconButton(
+                        onPressed: () => imageController.forward(),
+                        icon: const Icon(Icons.arrow_forward)),
+                  ),
+                ],
+              ),
             ],
           ),
         );

@@ -72,6 +72,7 @@ class MyInteractiveViewer extends StatefulWidget {
     this.scaleFactor = 200.0,
     this.transformationController,
     required this.onPan,
+    required this.onPanEnd,
     required Widget this.child,
   })  : assert(alignPanAxis != null),
         assert(child != null),
@@ -107,6 +108,7 @@ class MyInteractiveViewer extends StatefulWidget {
   MyInteractiveViewer.builder({
     super.key,
     this.onPan,
+    this.onPanEnd,
     this.clipBehavior = Clip.hardEdge,
     this.alignPanAxis = false,
     this.boundaryMargin = EdgeInsets.zero,
@@ -147,6 +149,7 @@ class MyInteractiveViewer extends StatefulWidget {
         child = null;
 
   final GestureScaleUpdateCallback? onPan;
+  final GestureScaleEndCallback? onPanEnd;
 
   /// If set to [Clip.none], the child may extend beyond the size of the InteractiveViewer,
   /// but it will not receive gestures in these areas.
@@ -858,6 +861,7 @@ class _MyInteractiveViewerState extends State<MyInteractiveViewer>
       return;
     }
     if (_gestureType == _GestureType.pan) {
+      widget.onPanEnd?.call(details);
       _panAxis = null;
       return;
     }

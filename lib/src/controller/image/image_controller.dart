@@ -12,4 +12,24 @@ class ImageController extends StateNotifier<ImageState> {
         [for (final e in row) e != old ? e : PixelModel(color: newColor)]
     ]);
   }
+
+  updateColorAndSetHistory(PixelModel old, Color newColor) {
+    state = state.copyWith(
+      pixels: [
+        for (final row in state.pixels)
+          [for (final e in row) e != old ? e : PixelModel(color: newColor)]
+      ],
+      history: state.history.push(state.pixels),
+    );
+  }
+
+  setHistory() {
+    state = state.copyWith(history: state.history.push(state.pixels));
+  }
+
+  forward() => state = state.copyWith(
+      pixels: state.history.next, history: state.history.forward());
+
+  back() => state =
+      state.copyWith(pixels: state.history.prev, history: state.history.back());
 }
