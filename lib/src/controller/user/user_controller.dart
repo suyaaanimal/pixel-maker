@@ -7,18 +7,21 @@ class UserController extends StateNotifier<UserState> {
   final _db = FirebaseFirestore.instance;
   UserController() : super(const UserState()) {
     FirebaseAuth.instance.authStateChanges().listen((event) {
-      state = state.copyWidth(user: event);
+      state = state.copyWidth(user: event, userName: event?.uid);
+      initUserInfo();
     });
   }
 
   Future<void> updataName(String name) async {
-    try {
-      await _db.collection('user').doc(state.user?.uid).set({
-        'userName': name,
-      });
-      state = state.copyWidth(userName: name);
-    } catch (e) {
-      rethrow;
-    }
+    await _db.collection('user').doc(state.user?.uid).set({
+      'userName': name,
+    });
+    state = state.copyWidth(userName: name);
+  }
+
+  Future<void> initUserInfo() async {
+    final data = await _db.collection('user').doc(state.user?.uid).get();
+    if (!data.exists) throw Exception('No user data');
+    state = state.copyWidth(userName: data.data()?['userName']);
   }
 }
