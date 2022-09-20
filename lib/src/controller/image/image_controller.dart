@@ -4,7 +4,11 @@ import 'package:pixel_maker/src/model/pixel_model.dart';
 import 'package:state_notifier/state_notifier.dart';
 
 class ImageController extends StateNotifier<ImageState> {
-  ImageController({size = 16}) : super(ImageState.fromLength(size));
+  ImageController({size = 16, String? docId})
+      : super(ImageState.fromLength(
+          size,
+          docId: docId ?? '',
+        ));
 
   updateColor(PixelModel old, Color newColor) {
     state = state.copyWith(pixels: [
