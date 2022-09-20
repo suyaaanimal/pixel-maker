@@ -25,6 +25,7 @@ class EditScreen extends StatelessWidget {
         final screenState = context.watch<EditScreenState>();
         final screenController = context.read<EditScreenController>();
         return Scaffold(
+            appBar: AppBar(),
             body: Center(
                 child: SizedBox(
                     child: screenState.page == EditScreenEnum.colorPicker

@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
         body: SafeArea(
           child: Center(
               child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 child: const Text('Edit'),

@@ -11,6 +11,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userState = context.watch<UserState>();
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
