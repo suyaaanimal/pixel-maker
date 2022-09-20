@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "915098076239",
+    "project_id": "pixel-maker-b6bda",
+    "storage_bucket": "pixel-maker-b6bda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915098076239:android:094be88f65fd35bfecd63a",
+        "android_client_info": {
+          "package_name": "jp.hatahata.pixel_maker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915098076239-2oncs09cv3n113uce8rfsvlqisulvdo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXjMYHH8jzvjeUJo2Rf0l6Auyfn7q9qaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915098076239-2oncs09cv3n113uce8rfsvlqisulvdo5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
