@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pixel_maker/src/conponent/dot_picture.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -34,14 +35,34 @@ class HomeScreen extends StatelessWidget {
                     final data = doc.data();
                     final createdAt = (data['createdAt'] as Timestamp).toDate();
                     final updatedAt = (data['updatedAt'] as Timestamp).toDate();
-                    return Column(
+                    final size = data['size'] as int;
+                    final linerImage = data['pixels'] as List;
+                    return Row(
                       children: [
-                        Text('creator:${data['creator']}'),
-                        Text('size:${data['size']}'),
-                        Text(
-                            'created at:${createdAt.month}/${createdAt.day} ${createdAt.hour}:${createdAt.minute}'),
-                        Text(
-                            'updated at:${updatedAt.month}/${updatedAt.day} ${updatedAt.hour}:${updatedAt.minute}'),
+                        SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: DotPicture(
+                              size: size,
+                              pixels: [
+                                for (int i = 0; i < size; i++)
+                                  [
+                                    for (int j = 0; j < size; j++)
+                                      Color(linerImage[i * size + j])
+                                  ],
+                              ],
+                              border: false),
+                        ),
+                        Column(
+                          children: [
+                            Text('creator:${data['creator']}'),
+                            Text('size:${data['size']}'),
+                            Text(
+                                'created at:${createdAt.month}/${createdAt.day} ${createdAt.hour}:${createdAt.minute}'),
+                            Text(
+                                'updated at:${updatedAt.month}/${updatedAt.day} ${updatedAt.hour}:${updatedAt.minute}'),
+                          ],
+                        ),
                       ],
                     );
                   },
