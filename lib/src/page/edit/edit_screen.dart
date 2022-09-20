@@ -29,18 +29,37 @@ class EditScreen extends StatelessWidget {
           onWillPop: () async {
             final data = context.read<ImageState>();
             final userController = context.read<UserController>();
-            if (data.docId == '') {
-              return await userController.uploadNewImage(
-                data.size,
-                data.pixels,
-              );
-            } else {
-              return await userController.updateImage(
-                data.docId,
-                data.size,
-                data.pixels,
-              );
-            }
+            return await showDialog(
+                context: context,
+                builder: ((context) {
+                  return AlertDialog(
+                    title: const Text('保存しますか？'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          child: const Text('保存しない')),
+                      TextButton(
+                        onPressed: () async {
+                          final bool result;
+                          result = data.docId == ''
+                              ? await userController.uploadNewImage(
+                                  data.size,
+                                  data.pixels,
+                                )
+                              : await userController.updateImage(
+                                  data.docId,
+                                  data.size,
+                                  data.pixels,
+                                );
+                          Navigator.of(context).pop(result);
+                        },
+                        child: const Text('保存する'),
+                      ),
+                    ],
+                  );
+                }));
           },
           child: Scaffold(
               appBar: AppBar(),
