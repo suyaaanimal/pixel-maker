@@ -29,6 +29,13 @@
             {
               "client_id": "915098076239-2oncs09cv3n113uce8rfsvlqisulvdo5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "915098076239-63gia5cd5o0d9biqipp81d346eto4ub8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.hatahata.pixelMaker"
+              }
             }
           ]
         }
