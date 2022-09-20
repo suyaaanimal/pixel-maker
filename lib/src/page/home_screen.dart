@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                 child: const Text('Edit'),
                 onPressed: () {
-                  context.push('/edit');
+                  context.push('/edit/new/settings');
                 },
               ),
               ElevatedButton(
