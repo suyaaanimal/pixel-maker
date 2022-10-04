@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:pixel_maker/src/conponent/interactive_viewer_clone.dart'
     show MyInteractiveViewer;
+import 'package:pixel_maker/src/conponent/transparent.dart';
 import 'package:pixel_maker/src/controller/edit_screen/edit_screen_controller.dart';
 import 'package:pixel_maker/src/controller/edit_screen/edit_screen_state.dart';
 import 'package:pixel_maker/src/controller/image/image_controller.dart';
@@ -109,27 +110,31 @@ class _EditableZoneState extends State<EditableZone>
                             (rowPixels) => Row(
                               children: rowPixels
                                   .map((e) => GestureDetector(
-                                        onTap: () {
-                                          actionOnPixel(e);
-                                          imageController.setHistory();
-                                        },
-                                        child: Container(
+                                      onTap: () {
+                                        actionOnPixel(e);
+                                        imageController.setHistory();
+                                      },
+                                      child: Container(
                                           padding: EdgeInsets.zero,
                                           width: pixelOneSideLength,
                                           height: pixelOneSideLength,
                                           decoration: BoxDecoration(
-                                              border: screenState.page ==
+                                            border: screenState.page ==
+                                                    EditScreenEnum.preview
+                                                ? null
+                                                : Border.all(
+                                                    width: pixelBorderWidth,
+                                                    color: Colors.grey,
+                                                    strokeAlign:
+                                                        StrokeAlign.outside,
+                                                  ),
+                                          ),
+                                          child: e.color ==
+                                                      const Color(0x00FFFFFF) &&
+                                                  screenState.page !=
                                                       EditScreenEnum.preview
-                                                  ? null
-                                                  : Border.all(
-                                                      width: pixelBorderWidth,
-                                                      color: Colors.grey,
-                                                      strokeAlign:
-                                                          StrokeAlign.outside,
-                                                    ),
-                                              color: e.color),
-                                        ),
-                                      ))
+                                              ? const Transparent()
+                                              : Container(color: e.color))))
                                   .toList(),
                             ),
                           )
