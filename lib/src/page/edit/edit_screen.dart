@@ -69,8 +69,17 @@ class EditScreen extends StatelessWidget {
                 screenController.updatePage(EditScreenEnum.values[value]),
             type: BottomNavigationBarType.fixed,
             items: EditScreenEnum.values
-                .map((e) =>
-                    BottomNavigationBarItem(icon: Icon(e.icon), label: e.name))
+                .map((e) => BottomNavigationBarItem(
+                    icon: e != EditScreenEnum.colorPicker
+                        ? Icon(e.icon)
+                        : Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                                color: screenState.penColor,
+                                borderRadius: BorderRadius.circular(4)),
+                          ),
+                    label: e.name))
                 .toList(),
           )),
     );
