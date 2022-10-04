@@ -7,6 +7,7 @@ import 'package:pixel_maker/src/controller/user/user_controller.dart';
 import 'package:pixel_maker/src/enums/edit_screen_enum.dart';
 import 'package:pixel_maker/src/page/edit/widet/color_picker_zone.dart';
 import 'package:pixel_maker/src/page/edit/widet/editable_zone.dart';
+import 'package:pixel_maker/src/page/edit/widet/preview_zone.dart';
 import 'package:provider/provider.dart';
 
 class EditScreen extends StatelessWidget {
@@ -58,11 +59,18 @@ class EditScreen extends StatelessWidget {
       },
       child: Scaffold(
           appBar: AppBar(),
-          body: Center(
-              child: SizedBox(
-                  child: screenState.page == EditScreenEnum.colorPicker
-                      ? const ColorPickerZone()
-                      : const EditableZone())),
+          body: Center(child: SizedBox(child: () {
+            switch (screenState.page) {
+              case EditScreenEnum.pen:
+              case EditScreenEnum.eraser:
+              case EditScreenEnum.spoit:
+                return const EditableZone();
+              case EditScreenEnum.colorPicker:
+                return const ColorPickerZone();
+              case EditScreenEnum.preview:
+                return const PreviewZone();
+            }
+          }())),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: screenState.page.index,
             onTap: (value) =>

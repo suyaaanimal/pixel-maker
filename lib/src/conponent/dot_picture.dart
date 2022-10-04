@@ -44,7 +44,11 @@ class DotPicturePainter extends CustomPainter {
       for (int j = 0; j < this.size; j++) {
         canvas.drawRect(
           Rect.fromLTWH(
-              pixelLength * i, pixelLength * j, pixelLength, pixelLength),
+            pixelLength * i - 1,
+            pixelLength * j - 1,
+            pixelLength + 1,
+            pixelLength + 1,
+          ),
           paint..color = pixels[j][i],
         );
       }
