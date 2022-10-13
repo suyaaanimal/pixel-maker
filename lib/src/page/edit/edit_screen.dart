@@ -7,6 +7,7 @@ import 'package:pixel_maker/src/controller/user/user_controller.dart';
 import 'package:pixel_maker/src/enums/edit_screen_enum.dart';
 import 'package:pixel_maker/src/page/edit/widet/color_picker_zone.dart';
 import 'package:pixel_maker/src/page/edit/widet/editable_zone.dart';
+import 'package:pixel_maker/src/page/edit/widet/pallet_zone.dart';
 import 'package:pixel_maker/src/page/edit/widet/preview_zone.dart';
 import 'package:provider/provider.dart';
 
@@ -63,11 +64,23 @@ class EditScreen extends StatelessWidget {
             switch (screenState.page) {
               case EditScreenEnum.pen:
               case EditScreenEnum.fill:
-              case EditScreenEnum.eraser:
               case EditScreenEnum.spoit:
+                return Column(
+                  children: const [
+                    EditableZone(),
+                    SizedBox(height: 10),
+                    PalletZone(),
+                  ],
+                );
+              case EditScreenEnum.eraser:
                 return const EditableZone();
               case EditScreenEnum.colorPicker:
-                return const ColorPickerZone();
+                return Column(
+                  children: const [
+                    ColorPickerZone(),
+                    PalletZone(),
+                  ],
+                );
               case EditScreenEnum.preview:
                 return const PreviewZone();
             }
@@ -85,7 +98,7 @@ class EditScreen extends StatelessWidget {
                             width: 24,
                             height: 24,
                             decoration: BoxDecoration(
-                                color: screenState.penColor,
+                                color: screenState.pallet[screenState.pen],
                                 borderRadius: BorderRadius.circular(4)),
                           ),
                     label: e.name))

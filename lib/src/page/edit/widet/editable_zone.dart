@@ -38,10 +38,10 @@ class _EditableZoneState extends State<EditableZone>
     final imageController = context.read<ImageController>();
     switch (screenState.page) {
       case EditScreenEnum.pen:
-        imageController.updateColor(e, screenState.penColor);
+        imageController.updateColor(e, screenState.pallet[screenState.pen]);
         break;
       case EditScreenEnum.fill:
-        imageController.fillColor(e, screenState.penColor);
+        imageController.fillColor(e, screenState.pallet[screenState.pen]);
         break;
       case EditScreenEnum.eraser:
         imageController.updateColor(e, screenState.eraseredColor);
