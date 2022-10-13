@@ -40,6 +40,9 @@ class _EditableZoneState extends State<EditableZone>
       case EditScreenEnum.pen:
         imageController.updateColor(e, screenState.penColor);
         break;
+      case EditScreenEnum.fill:
+        imageController.fillColor(e, screenState.penColor);
+        break;
       case EditScreenEnum.eraser:
         imageController.updateColor(e, screenState.eraseredColor);
         break;

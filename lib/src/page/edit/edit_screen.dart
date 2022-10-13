@@ -62,6 +62,7 @@ class EditScreen extends StatelessWidget {
           body: Center(child: SizedBox(child: () {
             switch (screenState.page) {
               case EditScreenEnum.pen:
+              case EditScreenEnum.fill:
               case EditScreenEnum.eraser:
               case EditScreenEnum.spoit:
                 return const EditableZone();
