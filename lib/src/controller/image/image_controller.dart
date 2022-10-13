@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:pixel_maker/src/controller/image/coordinate.dart';
+import 'package:pixel_maker/src/model/coordinate.dart';
 import 'package:pixel_maker/src/controller/image/image_state.dart';
 import 'package:pixel_maker/src/model/pixel_model.dart';
 import 'package:state_notifier/state_notifier.dart';
