@@ -86,6 +86,8 @@ class EditScreen extends StatelessWidget {
             }
           }())),
           bottomNavigationBar: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             currentIndex: screenState.page.index,
             onTap: (value) =>
                 screenController.updatePage(EditScreenEnum.values[value]),

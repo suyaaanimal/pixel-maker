@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 enum EditScreenEnum {
-  pen(icon: Icons.abc),
-  fill(icon: Icons.radio_button_checked_outlined),
-  eraser(icon: Icons.error),
-  spoit(icon: Icons.sports_martial_arts),
-  colorPicker(icon: Icons.color_lens),
+  pen(icon: Icons.edit),
+  fill(icon: Icons.format_color_fill),
+  eraser(icon: Icons.format_color_reset),
+  spoit(icon: Icons.colorize),
+  colorPicker(icon: Icons.palette),
   preview(icon: Icons.remove_red_eye),
   ;
 
